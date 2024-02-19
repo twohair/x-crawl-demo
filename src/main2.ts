@@ -40,6 +40,15 @@ const template = (title: string, content: string) => {
 </html>`;
 };
 
+if (!fs.existsSync("./html")) {
+  fs.mkdirSync("./html");
+}
+if (!fs.existsSync("./image")) {
+  fs.mkdirSync("./image");
+}
+if (!fs.existsSync("./data")) {
+  fs.mkdirSync("./data");
+}
 // 2.创建一个爬虫实例
 const myXCrawl = xCrawl({
   maxRetry: 3,
@@ -51,8 +60,8 @@ const PageLists = await myXCrawl.crawlPage(
     url: "https://www.biquge365.net/newbook/892751/",
     viewport: { width: 1920, height: 1080 },
   },
-  res => {
-    res.crawlErrorQueue.forEach(el => console.log(el.message));
+  (res) => {
+    res.crawlErrorQueue.forEach((el) => console.log(el.message));
   }
 );
 const { browser } = PageLists.data;
@@ -61,8 +70,8 @@ await page.waitForXPath("/html/body/div[1]/div[4]/ul/li[1]/a");
 await page.screenshot({ path: "./image/listPage.png" });
 
 // 获取章节列表url
-const sectionsFragmentUrlList = await page.$$eval(".info a", els =>
-  els.map(el => el.href)
+const sectionsFragmentUrlList = await page.$$eval(".info a", (els) =>
+  els.map((el) => el.href)
 );
 console.log(sectionsFragmentUrlList);
 await page.close();
@@ -81,9 +90,9 @@ const titleList: TitleAndNav[] = await Promise.all(
     const { page } = item.data;
     await page.waitForSelector(".gongneng1 ~ h1");
     await page.waitForSelector("#txt");
-    await page.screenshot({ path: `./image/detailPage${index}.png` });
-    const title = await page.$eval(".gongneng1 ~ h1", el => el.innerHTML);
-    let content = await page.$eval("#txt", el =>
+    // await page.screenshot({ path: `./image/detailPage${index}.png` });
+    const title = await page.$eval(".gongneng1 ~ h1", (el) => el.innerHTML);
+    let content = await page.$eval("#txt", (el) =>
       el.innerHTML
         .replace(
           '<p style="font-weight:bold" ;="">一秒记住【笔趣阁】biquge365.net，更新快，无弹窗！</p><br>',
@@ -100,7 +109,7 @@ const titleList: TitleAndNav[] = await Promise.all(
     const nav = navTemplate(title, fileName);
     const navConfig = navConfigTemplate(title, fileName, index);
 
-    fs.writeFile(filePath, detail, err => {
+    fs.writeFile(filePath, detail, (err) => {
       if (err) throw `文件写入错误`;
     });
     return {
@@ -113,8 +122,8 @@ const titleList: TitleAndNav[] = await Promise.all(
 await new Promise((resolve, reject) => {
   fs.writeFile(
     path.resolve(__dirname, "./data/title.json"),
-    JSON.stringify(titleList.map(i => i.title)),
-    err => {
+    JSON.stringify(titleList.map((i) => i.title)),
+    (err) => {
       resolve(null);
     }
   );
@@ -123,8 +132,8 @@ await new Promise((resolve, reject) => {
 await new Promise((resolve, reject) => {
   fs.writeFile(
     path.resolve(__dirname, "./data/nav.html"),
-    titleList.map(i => i.nav).join(os.EOL),
-    err => {
+    titleList.map((i) => i.nav).join(os.EOL),
+    (err) => {
       resolve(null);
     }
   );
@@ -132,8 +141,8 @@ await new Promise((resolve, reject) => {
 await new Promise((resolve, reject) => {
   fs.writeFile(
     path.resolve(__dirname, "./data/navConfig.html"),
-    titleList.map(i => i.navConfig).join(os.EOL),
-    err => {
+    titleList.map((i) => i.navConfig).join(os.EOL),
+    (err) => {
       resolve(null);
     }
   );

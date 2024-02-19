@@ -9,7 +9,8 @@
     "compile-hot": "tsc -w",
     "start": "node ./dist/main2.js",
     "start-hot": "nodemon ./dist/main2.js",
-    "dev": "nodemon --exec ts-node ./src/main2.ts"
+    "dev:hot": "nodemon -e ts --exec ts-node ./src/main2.ts",
+    "dev": "tsc && node ./dist/main2.js"
   },
   "keywords": [],
   "author": "",
