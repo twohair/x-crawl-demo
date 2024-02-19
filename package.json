@@ -1,0 +1,25 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "main.js",
+  "scripts": {
+    "compile": "tsc",
+    "compile-hot": "tsc -w",
+    "start": "node ./dist/main2.js",
+    "start-hot": "nodemon ./dist/main2.js",
+    "dev": "nodemon --exec ts-node ./src/main2.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^5.3.3",
+    "x-crawl": "^8.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.3",
+    "ts-node": "^10.9.2"
+  }
+}
