@@ -15,7 +15,7 @@
     "strict": true,
     "skipLibCheck": true,
     "baseUrl": ".",
-    "rootDir": ".",
+    "rootDir": "./src",
     "outDir": "./dist",
     "declaration": true
   },

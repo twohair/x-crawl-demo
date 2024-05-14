@@ -1,4 +1,10 @@
 {
-  "cSpell.words": ["biquge", "gongneng", "indexselect", "mbppagebreak"],
+  "cSpell.words": [
+    "biquge",
+    "gongneng",
+    "indexselect",
+    "mbppagebreak",
+    "zhetian"
+  ],
   "compile-hero.disable-compile-files-on-did-save-code": true
 }

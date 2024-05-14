@@ -16,7 +16,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "typescript": "^5.3.3",
     "x-crawl": "^8.3.1"
   },
   "devDependencies": {

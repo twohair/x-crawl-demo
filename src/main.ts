@@ -38,8 +38,8 @@ const PageLists = await myXCrawl.crawlPage(
     url: "https://www.biqge.org/book/19995",
     viewport: { width: 1920, height: 1080 },
   },
-  res => {
-    res.crawlErrorQueue.forEach(el => console.log(el.message));
+  (res) => {
+    res.crawlErrorQueue.forEach((el) => console.log(el.message));
   }
 );
 const { browser } = PageLists.data;
@@ -47,8 +47,8 @@ let { page } = PageLists.data;
 await page.waitForSelector("#indexselect");
 await page.screenshot({ path: "./image/homePage.png" });
 // 每50章一条url列表，获取所有url列表链接
-const urlLists = await page.$$eval("#indexselect option", els => {
-  return els.map(el => `https://www.biqge.org${el.value}`);
+const urlLists = await page.$$eval("#indexselect option", (els) => {
+  return els.map((el) => `https://www.biqge.org${el.value}`);
 });
 console.log(urlLists);
 await page.close();
@@ -65,8 +65,8 @@ const sectionsFragmentUrlList = await Promise.all(
     );
     await page.screenshot({ path: `./image/listPage${index}.png` });
     const sectionFragmentList = await page.$$(".section-list");
-    let res = await sectionFragmentList[1].$$eval("a", els =>
-      els.map(el => el.href)
+    let res = await sectionFragmentList[1].$$eval("a", (els) =>
+      els.map((el) => el.href)
     );
     await page.close();
     return res;
@@ -86,18 +86,18 @@ const titleList: string[][] = await Promise.all(
         await page.waitForSelector("#next_url");
         await page.waitForSelector("#content");
         await page.screenshot({ path: `./image/detailPage${index}.png` });
-        const title = await page.$eval(".title", el =>
+        const title = await page.$eval(".title", (el) =>
           el.innerHTML.replace(/（.+）/, "")
         );
-        let content = await page.$eval("#content", el => el.innerHTML);
+        let content = await page.$eval("#content", (el) => el.innerHTML);
         while (
           await page.$eval(
             "#next_url",
-            el => el.textContent?.trim() !== "下一章"
+            (el) => el.textContent?.trim() !== "下一章"
           )
         ) {
           await page.click("#next_url");
-          content += await page.$eval("#content", el => el.innerHTML);
+          content += await page.$eval("#content", (el) => el.innerHTML);
         }
         await page.close();
         const res = template(title, content);
@@ -106,7 +106,7 @@ const titleList: string[][] = await Promise.all(
           `./html/Section${(index + 1).toString().padStart(6, "0")}.xhtml`
         );
         await new Promise((resolve, reject) => {
-          fs.writeFile(filename, res, err => {
+          fs.writeFile(filename, res, (err) => {
             if (err) reject`文件写入错误`;
             resolve("success");
           });
@@ -122,7 +122,7 @@ await new Promise((resolve, reject) => {
   fs.writeFile(
     path.resolve(__dirname, "./title.json"),
     JSON.stringify(titleList.flat()),
-    err => {
+    (err) => {
       resolve(null);
     }
   );
